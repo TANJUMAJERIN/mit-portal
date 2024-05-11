@@ -112,14 +112,17 @@
 // });
 
 const express = require('express');
-const app = express();
+const cors = require('cors')
+const app = express()
+
 const enrollStudentRoutes = require('./routes/enroll_student_data');
 
+app.use(cors())
 app.use(express.json());
 
 // Mount the enrollment routes
 app.use('/enroll', enrollStudentRoutes);
 
 app.listen(5000, () => {
-  console.log('Server is running on port 3000');
+  console.log('Server is running on port 5000');
 });
