@@ -391,10 +391,12 @@
 
 //now try with claude  and cors,axios
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const app = express();
+const app = express()
+
 const cors = require('cors');
 
 app.use(bodyParser.json());
