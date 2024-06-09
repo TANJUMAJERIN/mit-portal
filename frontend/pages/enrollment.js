@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // import { useState, useEffect } from 'react';
 // import axios from '@/libs/axios';
@@ -74,6 +75,8 @@
 //     </div>
 //   );
 // }
+=======
+>>>>>>> 56f9321d78d79ca8500b031bad406086733043f2
 import { useState, useEffect } from 'react';
 import axios from '@/libs/axios';
 
