@@ -37,13 +37,15 @@ model staff {
   Password String? @db.VarChar(255)
 }
 
+
 model students {
   id                  Int     @id @default(autoincrement())
-  registration_number String  @db.VarChar(255)
+  registration_number String  @unique @db.VarChar(255)
   email               String  @db.VarChar(255)
   password            String  @db.VarChar(255)
   name                String? @db.VarChar(255)
 }
+
 
 model enrolled {
   id                  Int     @id @default(autoincrement())
@@ -58,4 +60,15 @@ model teacher {
   name        String? @db.VarChar(255)
   designation String? @db.VarChar(100)
   password    String? @db.VarChar(255)
+}
+
+model MarksheetData {
+  id          Int     @id @default(autoincrement())
+  student_roll String
+  course_code  String
+  course_name  String
+  semester     String
+  session      String
+  marks        Int
+  gpa          Float
 }

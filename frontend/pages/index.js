@@ -1,13 +1,16 @@
-import FileUpload from '@/components/file_upload';
-import Marksheet from '../components/Marksheet';
+// import FileUpload from '@/components/file_upload';
+// import Marksheet from '../components/Marksheet';
+// frontend/pages/index.js
+import UploadResult from '../components/UploadResult';
+import ViewResult from '../components/ViewResult';
 
 const HomePage = () => {
   return (
-    <div className='h-screen flex items-center justify-center'>
-      <FileUpload />
-      <Marksheet/>
+    <div>
+      <UploadResult />
+      <ViewResult />
     </div>
   );
-};
+}
 
 export default HomePage;
