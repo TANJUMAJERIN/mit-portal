@@ -1,0 +1,41 @@
+course coordinatorr-> navigate to final course offering
+->show elective course list from backend db name ellectivecourse(course code, course name,enrolled)
+as a table
+->course coordinator select final course from the electivecourse
+backend->
+insert the rows that course coordinator select to finalCourselist database(course code,course name,enrolled,prerequisite)
+
+student -> navigated to final course enrollment page
+frontend -> queries available list 
+backend-
+1. fetch final course list -> expected response >> finalCourselist: <course_no, course_name, currently_enrolled, prereq_list>
+2. fetch student's info -> expected resposne >> completedCourses: <passed_courses>
+3.finalCourselist.map(course => 
+  i. check if enrolled < 40
+  ii. check if all the prerequisites are in completedCourses
+
+  if both true, course.selectable = true
+  else course.selectable = false
+)
+4. send response to frontend >> finalCourselist: <course_no, course_name, selectable, prereq_list>
+frontend -> shows the available course list with a table (coloms are select, course code, course name, prerequisities)
+selectable == true -> display normally
+selectable == false -> blurred, and not clickable
+
+student -> selects   course/courses
+frontend -> request backend for verification
+backend -> finalCourselist.map(course => 
+  i. check if currently_enrolled < 40
+  ii. check if all the prereqs are in completedCourses
+
+  if both true, enroll student in these 2 courses, course.currently_enrolled++, return Success as response
+  else, return Error as response
+)
+
+frontend -> if error -> asks student to select again
+            if success -> show success dialogue that student is enrolled
+
+
+
+
+

@@ -81,17 +81,15 @@ model EnrolledCourse {
 }
 
 model ElectiveCourse {
-  course_code        String           @id @db.VarChar(20)
-  course_name        String?          @db.VarChar(255)
-  currently_enrolled Int              @default(0)
-  prerequisites      CoursePrerequisite[]
+  course_code        String  @id @db.VarChar(20)
+  course_name        String? @db.VarChar(255)
+  currently_enrolled Int     @default(0)
+  prerequisites      String? @db.VarChar(255) // Comma-separated string of prerequisite course codes
 }
 
-model CoursePrerequisite {
-  id               Int             @id @default(autoincrement())
-  course           ElectiveCourse  @relation(fields: [courseCode], references: [course_code])
-  courseCode       String          @db.VarChar(20)
-  prerequisiteCode String          @db.VarChar(20)
-
-  @@index([courseCode])
+model FinalCourseList {
+  course_code        String  @id @db.VarChar(20)
+  course_name        String? @db.VarChar(255)
+  currently_enrolled Int     @default(0)
+  prerequisites      String? @db.VarChar(255) // Comma-separated string of prerequisite course codes
 }

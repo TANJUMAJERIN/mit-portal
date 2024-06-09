@@ -389,30 +389,121 @@
 //   console.log(`Server is running on port ${PORT}`);
 // });
 
-//now try with claude  and cors,axios
-const express = require('express');
-const cors = require('cors')
-const bodyParser = require('body-parser');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-const app = express()
 
-//const cors = require('cors');
+//now try with claude  and cors,axios, below is the right code for initial enrollment
+// const express = require('express');
+// const cors = require('cors')
+// const bodyParser = require('body-parser');
+// const { PrismaClient } = require('@prisma/client');
+// const prisma = new PrismaClient();
+// const app = express()
+
+// //const cors = require('cors');
+
+// app.use(bodyParser.json());
+// app.use(cors());
+
+// app.get('/api/courses', async (req, res) => {
+//   const registrationNumber = req.query.registration_number;
+//   try {
+//     const student = await prisma.student.findUnique({
+//       where: { registration_number: registrationNumber },
+//       include: { completedCourses: true },
+//     });
+//     if (!student) {
+//       return res.status(404).json({ error: 'Student not found' });
+//     }
+//     const completedCourses = student.completedCourses.map((course) => course.courseCode);
+//     const electiveCourses = await prisma.electiveCourse.findMany({
+//       select: {
+//         course_code: true,
+//         course_name: true,
+//         currently_enrolled: true,
+//         prerequisites: { select: { prerequisiteCode: true } },
+//       },
+//     });
+//     const processedCourses = electiveCourses.map((course) => {
+//       const prereqsMet = course.prerequisites.every((prereq) => completedCourses.includes(prereq.prerequisiteCode));
+//       const selectable = course.currently_enrolled < 40 && prereqsMet;
+//       return {
+//         courseCode: course.course_code,
+//         courseName: course.course_name,
+//         currentlyEnrolled: course.currently_enrolled,
+//         prerequisiteList: course.prerequisites.map((prereq) => prereq.prerequisiteCode),
+//         selectable,
+//       };
+//     });
+//     res.json({ electiveCourses: processedCourses });
+//   } catch (error) {
+//     console.error('Error fetching courses:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+// app.post('/api/enroll', async (req, res) => {
+//   const { registration_number, selectedCourses } = req.body;
+//   try {
+//     const student = await prisma.student.findUnique({
+//       where: { registration_number: registration_number.toString() },
+//       include: { completedCourses: true },
+//     });
+//     if (!student) {
+//       return res.status(404).json({ error: 'Student not found' });
+//     }
+//     const completedCourses = student.completedCourses.map((course) => course.courseCode);
+//     let enrollmentSuccess = true;
+//     for (const courseCode of selectedCourses) {
+//       const course = await prisma.electiveCourse.findUnique({
+//         where: { course_code: courseCode },
+//         include: { prerequisites: true },
+//       });
+//       if (!course) {
+//         return res.status(404).json({ error: 'Course not found' });
+//       }
+//       const prereqsMet = course.prerequisites.every((prereq) => completedCourses.includes(prereq.prerequisiteCode));
+//       if (course.currently_enrolled >= 40 || !prereqsMet) {
+//         enrollmentSuccess = false;
+//         break;
+//       }
+//     }
+//     if (enrollmentSuccess) {
+//       const enrollmentPromises = selectedCourses.map(async (courseCode) => {
+//         await prisma.electiveCourse.update({
+//           where: { course_code: courseCode },
+//           data: { currently_enrolled: { increment: 1 } },
+//         });
+//       });
+
+//       await Promise.all(enrollmentPromises);
+
+//       return res.json({ status: 'Success' });
+//     }
+//   } catch (error) {
+//     console.error('Error enrolling:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+// app.listen(3001, () => {
+//   console.log('Server is running on port 3001');
+// });
+
+
+//finalcourseoffer code
+// finalcourseoffer.js
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/api/courses', async (req, res) => {
-  const registrationNumber = req.query.registration_number;
+app.get('/api/elective-courses', async (req, res) => {
   try {
-    const student = await prisma.student.findUnique({
-      where: { registration_number: registrationNumber },
-      include: { completedCourses: true },
-    });
-    if (!student) {
-      return res.status(404).json({ error: 'Student not found' });
-    }
-    const completedCourses = student.completedCourses.map((course) => course.courseCode);
     const electiveCourses = await prisma.electiveCourse.findMany({
       select: {
         course_code: true,
@@ -421,53 +512,118 @@ app.get('/api/courses', async (req, res) => {
         prerequisites: { select: { prerequisiteCode: true } },
       },
     });
-    const processedCourses = electiveCourses.map((course) => {
-      const prereqsMet = course.prerequisites.every((prereq) => completedCourses.includes(prereq.prerequisiteCode));
+
+    res.json({ electiveCourses });
+  } catch (error) {
+    console.error('Error fetching elective courses:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/final-courses', async (req, res) => {
+  const { selectedCourses } = req.body;
+
+  try {
+    const finalCourses = selectedCourses.map(course => ({
+      course_code: course.course_code,
+      course_name: course.course_name,
+      currently_enrolled: course.currently_enrolled,
+      prerequisites: {
+        create: course.prerequisites.map(prereq => ({ prerequisiteCode: prereq.prerequisiteCode })),
+      },
+    }));
+
+    await prisma.finalCourseList.createMany({
+      data: finalCourses,
+    });
+
+    res.json({ status: 'Success' });
+  } catch (error) {
+    console.error('Error inserting final courses:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/final-courses', async (req, res) => {
+  const registrationNumber = req.query.registration_number;
+
+  try {
+    const student = await prisma.student.findUnique({
+      where: { registration_number: registrationNumber },
+      include: { completedCourses: true },
+    });
+
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    const completedCourses = student.completedCourses.map(course => course.courseCode);
+
+    const finalCourses = await prisma.finalCourseList.findMany({
+      select: {
+        course_code: true,
+        course_name: true,
+        currently_enrolled: true,
+        prerequisites: { select: { prerequisiteCode: true } },
+      },
+    });
+
+    const processedCourses = finalCourses.map(course => {
+      const prereqsMet = course.prerequisites.every(prereq => completedCourses.includes(prereq.prerequisiteCode));
       const selectable = course.currently_enrolled < 40 && prereqsMet;
       return {
         courseCode: course.course_code,
         courseName: course.course_name,
         currentlyEnrolled: course.currently_enrolled,
-        prerequisiteList: course.prerequisites.map((prereq) => prereq.prerequisiteCode),
+        prerequisiteList: course.prerequisites.map(prereq => prereq.prerequisiteCode),
         selectable,
       };
     });
-    res.json({ electiveCourses: processedCourses });
+
+    res.json({ finalCourses: processedCourses });
   } catch (error) {
-    console.error('Error fetching courses:', error);
+    console.error('Error fetching final courses:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
 app.post('/api/enroll', async (req, res) => {
   const { registration_number, selectedCourses } = req.body;
+
   try {
     const student = await prisma.student.findUnique({
       where: { registration_number: registration_number.toString() },
       include: { completedCourses: true },
     });
+
     if (!student) {
       return res.status(404).json({ error: 'Student not found' });
     }
-    const completedCourses = student.completedCourses.map((course) => course.courseCode);
+
+    const completedCourses = student.completedCourses.map(course => course.courseCode);
     let enrollmentSuccess = true;
+
     for (const courseCode of selectedCourses) {
-      const course = await prisma.electiveCourse.findUnique({
+      const course = await prisma.finalCourseList.findUnique({
         where: { course_code: courseCode },
         include: { prerequisites: true },
       });
+
       if (!course) {
         return res.status(404).json({ error: 'Course not found' });
       }
-      const prereqsMet = course.prerequisites.every((prereq) => completedCourses.includes(prereq.prerequisiteCode));
+
+      const prereqsMet = course.prerequisites.every(prereq => completedCourses.includes(prereq.prerequisiteCode));
+
       if (course.currently_enrolled >= 40 || !prereqsMet) {
         enrollmentSuccess = false;
         break;
       }
     }
+
     if (enrollmentSuccess) {
-      const enrollmentPromises = selectedCourses.map(async (courseCode) => {
-        await prisma.electiveCourse.update({
+      const enrollmentPromises = selectedCourses.map(async courseCode => {
+        await prisma.finalCourseList.update({
           where: { course_code: courseCode },
           data: { currently_enrolled: { increment: 1 } },
         });
@@ -476,6 +632,8 @@ app.post('/api/enroll', async (req, res) => {
       await Promise.all(enrollmentPromises);
 
       return res.json({ status: 'Success' });
+    } else {
+      return res.status(400).json({ error: 'Enrollment failed due to prerequisites or capacity' });
     }
   } catch (error) {
     console.error('Error enrolling:', error);
