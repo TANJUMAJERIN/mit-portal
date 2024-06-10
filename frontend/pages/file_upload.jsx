@@ -32,24 +32,20 @@ export default function FileUpload() {
   const sendToBackend = async (jsonData) => {
     const requestBody = jsonData.map((arr) => ({
       registration_number: arr[0].toString(),
-      email: arr[1],
-      session: arr[2],
-      name: arr[3],
+      name: arr[1],
+      email: arr[2],
+      session: arr[3],
     }));
 
-    console.log("Request Body:", requestBody); // Add this line
-
-    try {
-      const response = await axios.post("/enroll/upload", requestBody, {
+    console.log(requestBody);
+    await axios
+      .post("/enroll/upload", requestBody, {
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      console.log("Response:", response.data); // Add this line
-      alert("Uploaded");
-    } catch (err) {
-      console.log(err);
-    }
+      })
+      .then(() => alert("Uploaded"))
+      .catch((err) => console.log(err));
   };
 
   return (

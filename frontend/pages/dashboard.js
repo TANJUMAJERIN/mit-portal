@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-import UploadResult from '../components/uploadResult';
-import Link from "next/link";
+
+
 const Dashboard = () => {
   const [userData, setUserData] = useState({});
   const [notices, setNotices] = useState([]);
@@ -49,21 +49,28 @@ const Dashboard = () => {
     }
   };
 
-  const uploadResult = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/notices`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setNotices(response.data);
-      setError(null);
-    } catch (error) {
-      console.error('Error fetching notices:', error);
-      setError('Error fetching notices. Please try again later.');
-    }
+  const navigateToUploadResult = () => {
+    router.push('/uploadResult'); // Navigate to '/uploadResult' when clicked
   };
+
+  const navigateToViewResult = () => {
+    router.push('/ViewResult'); // Navigate to '/ViewResult' when clicked
+  };
+
+  const navigateToStudentEnroll = () => {
+    router.push('/file_upload'); // Navigate to '/ViewResult' when clicked
+  };
+  const navigateToPayment = () => {
+    router.push('/payment'); // Navigate to '/ViewResult' when clicked
+  };
+  
+  const navigateToVerification = () => {
+    router.push('/enrollmentVerification'); // Navigate to '/ViewResult' when clicked
+  };
+  const navigateToHistory = () => {
+    router.push('/History'); // Navigate to '/ViewResult' when clicked
+  };
+
 
   return (
     <div className="flex h-screen">
@@ -74,21 +81,27 @@ const Dashboard = () => {
             <p className="text-sm text-gray-400">{userData.email}</p>
           </div>
         </div>
-        <nav>
+        {/* <nav>
           <ul className="space-y-2">
-            <li className="bg-gray-700 rounded p-2 cursor-pointer" onClick={fetchNotices}>Notices</li>
+            <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick={fetchNotices}>Notices</li>
           </ul>
-        </nav>
-        <br></br>
+        </nav> */}
         <nav>
-          <ul className="space-y-2">
-          <li>
-              <Link href="../components/UploadResult" className="text-white hover:text-gray-300">
-                Upload Result
-              </Link>
-            </li>
-          </ul>
-        </nav>
+      <ul className="space-y-2">
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick={fetchNotices}>Notices</li>
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick={navigateToUploadResult}>Upload Result</li>
+
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick={navigateToViewResult}>View Result</li>
+
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick={navigateToStudentEnroll}>Student Enrollment</li>
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick=
+        {navigateToPayment}>Payment</li>
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick=
+        {navigateToVerification}>Enrollment Verification</li>
+        <li className="bg-blue-700 rounded p-2 cursor-pointer" onClick=
+        {navigateToHistory}>History</li>
+      </ul>
+    </nav>
       </div>
       <div className="flex-1 p-8">
         <div className="mb-8">

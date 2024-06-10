@@ -11,7 +11,7 @@ export default function CourseSelection() {
   const fetchCourses = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/initial-course-selection",
+        "http://localhost:5000/api/initial-course-selection",
         {
           roll,
           session,
