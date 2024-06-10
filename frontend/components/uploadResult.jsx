@@ -50,7 +50,7 @@ export default function UploadResult() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/upload",
+        "http://localhost:5000/api/upload",
         formData,
         {
           headers: {

@@ -17,7 +17,7 @@ export default function ViewResult() {
     try {
       console.log("Sending request to backend");
       const response = await axios.post(
-        "http://localhost:4000/api/view-result",
+        "http://localhost:5000/api/view-result",
         {
           semester,
           session,

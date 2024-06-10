@@ -72,3 +72,31 @@ model MarksheetData {
   marks        Int
   gpa          Float
 }
+model Course {
+  id          Int      @id @default(autoincrement())
+  coursecode String   @unique
+  coursename  String
+  type        String
+  credit      Int
+}
+
+model CourseEnrollment {
+  id        Int      @id @default(autoincrement())
+  roll      String
+  coursecode  String
+  type      String
+ 
+}
+
+model SelectedCourse {
+  id                Int    @id @default(autoincrement())
+  session           String
+  semester          String
+  coursecode        String
+  currentlyEnrolled Int
+}
+model user {
+  email    String  @id @db.VarChar(255)
+  role     String  @db.VarChar(50)
+  password String  @db.VarChar(255)
+}
