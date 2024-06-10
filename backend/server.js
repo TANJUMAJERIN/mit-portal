@@ -222,20 +222,61 @@
 // app.listen(4000, () => {
 //   console.log('Server is running on port 4000');
 // });
+/////////////////////////marsheet r server start//////////////////
+// const express = require('express');
+// const cors = require('cors');
+// const uploadRoutes = require('./routes/uploadRoutes');
+// const viewResultRoutes = require('./routes/viewResultRoutes');
+
+// const app = express();
+// const port = 4000;
+
+// app.use(cors({ origin: 'http://localhost:3000' }));
+// app.use(express.json());
+
+// app.use('/api', uploadRoutes);
+// app.use('/api', viewResultRoutes);
+
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
+////////////////mark sheet server end////////////////////////
+// const express = require('express');
+// const { PrismaClient } = require('@prisma/client');
+// const cors = require('cors');
+// const app = express();
+// const prisma = new PrismaClient();
+
+// app.use(cors());
+// app.use(express.json());
+
+// app.post('/api/initial-course-selection', async (req, res) => {
+//   const { roll, session, semester } = req.body;
+//   try {
+//     const courses = await prisma.course.findMany();
+//     res.json({ courses });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Error fetching courses');
+//   }
+// });
+
+// app.listen(3001, () => {
+//   console.log('Server running on port 3001');
+// });
 const express = require('express');
+const { PrismaClient } = require('@prisma/client');
 const cors = require('cors');
-const uploadRoutes = require('./routes/uploadRoutes');
-const viewResultRoutes = require('./routes/viewResultRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 
 const app = express();
-const port = 4000;
+const prisma = new PrismaClient();
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors());
 app.use(express.json());
 
-app.use('/api', uploadRoutes);
-app.use('/api', viewResultRoutes);
+app.use('/api', courseRoutes); 
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(3001, () => {
+  console.log('Server running on port 3001');
 });

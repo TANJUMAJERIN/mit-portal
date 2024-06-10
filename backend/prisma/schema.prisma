@@ -7,63 +7,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model course {
-  course_code String  @id @db.VarChar(20)
-  course_name String? @db.VarChar(255)
+model Course {
+  id          Int     @id @default(autoincrement())
+  coursecode  String  @unique
+  coursename  String
+  type        String
+  credit      Int
 }
 
-model notices {
-  id          Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255)
-  description String?   @db.Text
-  created_at  DateTime? @default(now()) @db.Timestamp(0)
+model Notices {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  created_at  DateTime @default(now())
 }
 
-model payment {
+model Payment {
   registration_number Int     @id
-  payment_status      String? @db.VarChar(10)
+  payment_status      String?
 }
 
-model result {
-  registration_number Int      @id
-  marks               Decimal? @db.Decimal(5, 2)
-  course_name         String?  @db.VarChar(255)
-  CGPA                Decimal? @db.Decimal(3, 2)
+model Result {
+  registration_number Int     @id
+  marks               Decimal @db.Decimal(5, 2)
+  course_name         String
+  CGPA                Decimal @db.Decimal(3, 2)
 }
 
-model staff {
-  email    String  @id @db.VarChar(255)
-  name     String? @db.VarChar(255)
-  Password String? @db.VarChar(255)
+model Staff {
+  email    String @id
+  name     String
+  Password String
 }
 
-
-model students {
-  id                  Int     @id @default(autoincrement())
-  registration_number String  @unique @db.VarChar(255)
-  email               String  @db.VarChar(255)
-  password            String  @db.VarChar(255)
-  name                String? @db.VarChar(255)
+model Students {
+  id                  Int    @id @default(autoincrement())
+  registration_number String @unique
+  email               String
+  password            String
+  name                String
 }
 
-
-model enrolled {
-  id                  Int     @id @default(autoincrement())
-  registration_number String  @db.VarChar(255)
-  email               String  @db.VarChar(255)
-  session             String  @db.VarChar(255)
-  name                String? @db.VarChar(255)
+model Enrolled {
+  id                  Int    @id @default(autoincrement())
+  registration_number String
+  email               String
+  session             String
+  name                String
 }
 
-model teacher {
-  email       String  @id @db.VarChar(255)
-  name        String? @db.VarChar(255)
-  designation String? @db.VarChar(100)
-  password    String? @db.VarChar(255)
+model Teacher {
+  email       String @id
+  name        String
+  designation String
+  password    String
 }
 
 model MarksheetData {
-  id          Int     @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   student_roll String
   course_code  String
   course_name  String
@@ -71,4 +72,19 @@ model MarksheetData {
   session      String
   marks        Int
   gpa          Float
+}
+
+model CourseEnrollment {
+  id         Int    @id @default(autoincrement())
+  roll       String
+  coursecode String
+  type       String
+}
+
+model SelectedCourse {
+  id                Int    @id @default(autoincrement())
+  session           String
+  semester          String
+  coursecode        String
+  currentlyEnrolled Int 
 }
