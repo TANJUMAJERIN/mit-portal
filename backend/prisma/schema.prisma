@@ -7,11 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model course {
-  course_code String  @id @db.VarChar(20)
-  course_name String? @db.VarChar(255)
-}
-
 model notices {
   id          Int       @id @default(autoincrement())
   title       String    @db.VarChar(255)
@@ -25,7 +20,8 @@ model payment {
 }
 
 model result {
-  registration_number Int      @id
+  id                  Int      @id @default(autoincrement())
+  registration_number Int      @unique
   marks               Decimal? @db.Decimal(5, 2)
   course_name         String?  @db.VarChar(255)
   CGPA                Decimal? @db.Decimal(3, 2)
@@ -37,15 +33,13 @@ model staff {
   Password String? @db.VarChar(255)
 }
 
-
-model students {
-  id                  Int     @id @default(autoincrement())
+model student {
   registration_number String  @unique @db.VarChar(255)
-  email               String  @db.VarChar(255)
+  email               String  @unique @db.VarChar(255)
   password            String  @db.VarChar(255)
   name                String? @db.VarChar(255)
+  enrollments         CourseEnrollment[]
 }
-
 
 model enrolled {
   id                  Int     @id @default(autoincrement())
@@ -56,14 +50,14 @@ model enrolled {
 }
 
 model teacher {
-  email       String  @id @db.VarChar(255)
+  email       String  @id @db.VarChar(255) @unique
   name        String? @db.VarChar(255)
   designation String? @db.VarChar(100)
   password    String? @db.VarChar(255)
 }
 
 model MarksheetData {
-  id          Int     @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   student_roll String
   course_code  String
   course_name  String
@@ -72,20 +66,22 @@ model MarksheetData {
   marks        Int
   gpa          Float
 }
+
 model Course {
-  id          Int      @id @default(autoincrement())
-  coursecode String   @unique
+  coursecode  String   @id @unique
   coursename  String
   type        String
   credit      Int
+  enrollments CourseEnrollment[]
 }
 
 model CourseEnrollment {
-  id        Int      @id @default(autoincrement())
-  roll      String
+  id          Int      @id @default(autoincrement())
+  roll        String
   coursecode  String
-  type      String
- 
+  type        String
+  course      Course   @relation(fields: [coursecode], references: [coursecode])
+  student     student @relation(fields: [roll], references: [registration_number])
 }
 
 model SelectedCourse {
@@ -95,6 +91,7 @@ model SelectedCourse {
   coursecode        String
   currentlyEnrolled Int
 }
+
 model user {
   email    String  @id @db.VarChar(255)
   role     String  @db.VarChar(50)

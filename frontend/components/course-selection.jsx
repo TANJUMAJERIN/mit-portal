@@ -38,7 +38,7 @@ export default function CourseSelection() {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/submit-course-selection",
+        "http://localhost:5000/api/submit-course-selection",
         {
           roll,
           session,

@@ -246,49 +246,46 @@
 // const cors = require('cors');
 // const courseRoutes = require('./routes/courseRoutes');
 
-
-
-const app = express();
- const PORT = 5000;
-
-app.use(cors());
-app.use(express.json());
-
-app.use('/api', courseRoutes);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-
-});
-
-
-//////////////////////cute final start//////////
-//  const express = require('express');
-// const cors = require('cors');
-// const authRoutes = require('./routes/auth');
-// const dashboardRoutes = require('./routes/dashboard');
-// const noticesRouter = require('./routes/notices');
-// const uploadRoutes = require('./routes/uploadRoutes');
-// const viewResultRoutes = require('./routes/viewResultRoutes');
-// const enroll_student_data=require('./routes/enroll_student_data');
 // const app = express();
 // const PORT = 5000;
 
 // app.use(cors());
 // app.use(express.json());
 
-// app.use('/api', authRoutes);
-// app.use('/api', uploadRoutes);
-// app.use('/api', viewResultRoutes);
-// app.use('/api/dashboard', dashboardRoutes);
-// app.use('/api/notices', noticesRouter);
-// app.use('/api',enroll_student_data);
-
+// app.use("/api", courseRoutes);
 
 // app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
+// 	console.log(`Server is running on http://localhost:${PORT}`);
 // });
 
+//////////////////////cute final start//////////
+const express = require('express');
+const cors = require('cors');
 
+const authRoutes = require('./routes/auth');
+const dashboardRoutes = require('./routes/dashboard');
+const noticesRouter = require('./routes/notices');
+const uploadRoutes = require('./routes/uploadRoutes');
+const viewResultRoutes = require('./routes/viewResultRoutes');
+const enroll_student_data = require('./routes/enroll_student_data');
+const courseRoutes = require('./routes/courseRoutes');
+
+const app = express();
+const PORT = 5000;
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/api', authRoutes);
+app.use('/api', uploadRoutes);
+app.use('/api', viewResultRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/notices', noticesRouter);
+app.use('/api',enroll_student_data);
+app.use("/api", courseRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
 
 ///////////////////cute final end////////////////////

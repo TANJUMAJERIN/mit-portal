@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "./libs/axios";
 
 const courses = {
   "MITM 303": "Advanced Computer Networks & Internetworking",
@@ -50,7 +50,7 @@ export default function UploadResult() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/upload",
+        "/api/upload",
         formData,
         {
           headers: {
@@ -66,8 +66,7 @@ export default function UploadResult() {
         error.response ? error.response.data : error.message
       );
       alert(
-        "Upload failed: " +
-          (error.response ? error.response.data : error.message)
+        `Upload failed: ${error.response ? error.response.data : error.message}`
       );
     }
   };
