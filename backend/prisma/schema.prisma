@@ -20,11 +20,11 @@ model payment {
 }
 
 model result {
-  id                  Int      @id @default(autoincrement())
   registration_number Int      @unique
   marks               Decimal? @db.Decimal(5, 2)
   course_name         String?  @db.VarChar(255)
   CGPA                Decimal? @db.Decimal(3, 2)
+  id                  Int      @id @default(autoincrement())
 }
 
 model staff {
@@ -34,11 +34,19 @@ model staff {
 }
 
 model student {
+<<<<<<< HEAD
   registration_number String  @unique @db.VarChar(255)
   email               String  @unique @db.VarChar(255)
   session             String  @db.VarChar(255)
   name                String? @db.VarChar(255)
   enrollments         CourseEnrollment[]
+=======
+  registration_number String             @id @unique @db.VarChar(255)
+  email               String             @unique @db.VarChar(255)
+  password            String             @db.VarChar(255)
+  name                String?            @db.VarChar(255)
+  courseenrollment    courseenrollment[]
+>>>>>>> dc25c5a41d98f7f5061b31cac4995b4f2de031bb
 }
 
 model enrolled {
@@ -50,14 +58,40 @@ model enrolled {
 }
 
 model teacher {
-  email       String  @id @db.VarChar(255) @unique
+  email       String  @id @unique @db.VarChar(255)
   name        String? @db.VarChar(255)
   designation String? @db.VarChar(100)
   password    String? @db.VarChar(255)
 }
 
-model MarksheetData {
-  id           Int     @id @default(autoincrement())
+model user {
+  email    String @id @db.VarChar(255)
+  role     String @db.VarChar(50)
+  password String @db.VarChar(255)
+}
+
+model course {
+  coursecode       String             @id @unique(map: "Course_coursecode_key")
+  coursename       String
+  credit           Int
+  type             String
+  courseenrollment courseenrollment[]
+}
+
+model courseenrollment {
+  id         Int     @id @default(autoincrement())
+  roll       String
+  coursecode String
+  type       String
+  course     course  @relation(fields: [coursecode], references: [coursecode], map: "CourseEnrollment_coursecode_fkey")
+  student    student @relation(fields: [roll], references: [registration_number], map: "CourseEnrollment_roll_fkey")
+
+  @@index([coursecode], map: "CourseEnrollment_coursecode_idx")
+  @@index([roll], map: "CourseEnrollment_roll_fkey")
+}
+
+model marksheetdata {
+  id           Int    @id @default(autoincrement())
   student_roll String
   course_code  String
   course_name  String
@@ -67,6 +101,7 @@ model MarksheetData {
   gpa          Float
 }
 
+<<<<<<< HEAD
 model Course {
   coursecode  String   @id @unique
   coursename  String
@@ -87,15 +122,12 @@ model CourseEnrollment {
 }
 
 model SelectedCourse {
+=======
+model selectedcourse {
+>>>>>>> dc25c5a41d98f7f5061b31cac4995b4f2de031bb
   id                Int    @id @default(autoincrement())
   session           String
   semester          String
   coursecode        String
   currentlyEnrolled Int
-}
-
-model user {
-  email    String  @id @db.VarChar(255)
-  role     String  @db.VarChar(50)
-  password String  @db.VarChar(255)
 }
