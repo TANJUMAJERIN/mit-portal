@@ -58,17 +58,17 @@ const Dashboard = () => {
   };
 
   const navigateToStudentEnroll = () => {
-    router.push('/file_upload'); // Navigate to '/ViewResult' when clicked
+    router.push('/uploadEnrollment'); // Navigate to '/ViewResult' when clicked
   };
   const navigateToPayment = () => {
-    router.push('/payment'); // Navigate to '/ViewResult' when clicked
+    router.push('/paymentSlip'); // Navigate to '/ViewResult' when clicked
   };
   
   const navigateToVerification = () => {
     router.push('/enrollmentVerification'); // Navigate to '/ViewResult' when clicked
   };
   const navigateToHistory = () => {
-    router.push('/History'); // Navigate to '/ViewResult' when clicked
+    router.push('/studentHistory'); // Navigate to '/ViewResult' when clicked
   };
 
 
