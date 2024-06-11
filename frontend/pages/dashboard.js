@@ -1,8 +1,7 @@
-
-//below is correct
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -12,16 +11,21 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
 
+  const { data: session, status } = useSession();
+  
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (session && status === 'authenticated') {
+      fetchData();
+    }
+  }, [session, status]);
 
   const fetchData = async () => {
+  console.log(session.user)
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.get(`http://localhost:5000/api/dashboard`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+        params: {
+          email: session.user.email,
+          role: session.user.role
         }
       });
       setUserData(response.data.userData);
@@ -29,13 +33,13 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Error fetching user data:', error);
       setError('Error fetching user data. Please try again later.');
-      router.push('/login');
     }
   };
 
   const fetchNotices = async () => {
+    console.log('here')
     try {
-      const token = localStorage.getItem('token');
+      const token = session.user.token;
       const response = await axios.get(`http://localhost:5000/api/notices`, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -139,4 +143,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
