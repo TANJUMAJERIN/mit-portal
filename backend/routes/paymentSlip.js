@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 
 // const express = require('express');
 // const prisma = require('../prisma/prismaClient');
@@ -120,6 +121,8 @@
 // });
 
 // module.exports = router;
+=======
+>>>>>>> a28d37c9a0c53908cf27eaf31b6fa1974632eea5
 const express = require('express');
 const prisma = require('../prisma/prismaClient');
 const htmlPdf = require('html-pdf-node');
@@ -169,7 +172,11 @@ router.get('/paymentSlip/:roll/:semester/:session', async (req, res) => {
         <meta charset="UTF-8">
         <title>Payment Slip</title>
         <style>
+<<<<<<< HEAD
           body { font-family: Arial, sans-serif; margin: 20px; background-color: #ffcccb; }
+=======
+          body { font-family: Arial, sans-serif; margin: 20px;  background-color: #ffc0cb; }
+>>>>>>> a28d37c9a0c53908cf27eaf31b6fa1974632eea5
           h1 { text-align: center; }
           .info { margin-bottom: 20px; }
           .info div { margin-bottom: 5px; }

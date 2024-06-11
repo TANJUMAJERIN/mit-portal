@@ -271,7 +271,11 @@ const enroll_student_data = require('./routes/enroll_student_data');
 const courseRoutes = require('./routes/courseRoutes');
 const uploadStudentListRoutes = require('./routes/uploadStudentList');
 const paymentSlipRoutes = require('./routes/paymentSlip'); 
+<<<<<<< HEAD
 const history = require('./routes/history')
+=======
+const historyRouter = require('./routes/history');
+>>>>>>> a28d37c9a0c53908cf27eaf31b6fa1974632eea5
 const app = express();
 const PORT = 5000;
 
@@ -287,8 +291,12 @@ app.use('/api',enroll_student_data);
 app.use("/api", courseRoutes);
 app.use('/api', paymentSlipRoutes);
 app.use('/api', uploadStudentListRoutes);
+<<<<<<< HEAD
 
 app.use('/api/history', history);
+=======
+app.use('/api', historyRouter);
+>>>>>>> a28d37c9a0c53908cf27eaf31b6fa1974632eea5
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
@@ -311,3 +319,8 @@ app.listen(PORT, () => {
 // app.listen(port, () => {
 //   console.log(`Server running at http://localhost:${port}`);
 // });
+<<<<<<< HEAD
+=======
+
+// testing git commit
+>>>>>>> a28d37c9a0c53908cf27eaf31b6fa1974632eea5
