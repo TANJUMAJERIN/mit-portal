@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from 'axios';
+import Header from "./Land/Header";
+import Footer from "./Land/Footer";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +31,8 @@ const LoginPage = () => {
   };
 
   return (
+    <>
+    <Header/>
     <div className="min-h-screen flex items-center justify-center bg-sky-100">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-3xl font-bold mb-6 text-center">
@@ -80,6 +84,8 @@ const LoginPage = () => {
         </form>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

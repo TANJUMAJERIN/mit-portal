@@ -35,21 +35,11 @@ model staff {
 }
 
 model student {
-<<<<<<< HEAD
-  registration_number String  @unique @db.VarChar(255)
-  email               String  @unique @db.VarChar(255)
-  session             String  @db.VarChar(255)
-  name                String? @db.VarChar(255)
-  password            String? @db.VarChar(255)
-  role                String 
-  enrollments         CourseEnrollment[]
-=======
   registration_number String             @id @unique @db.VarChar(255)
   email               String             @unique @db.VarChar(255)
   password            String             @db.VarChar(255)
   name                String?            @db.VarChar(255)
   courseenrollment    courseenrollment[]
->>>>>>> dc25c5a41d98f7f5061b31cac4995b4f2de031bb
 }
 
 model enrolled {
@@ -105,30 +95,7 @@ model marksheetdata {
   gpa          Float
 }
 
-<<<<<<< HEAD
-model Course {
-  coursecode  String   @id @unique
-  coursename  String
-  type        String
-  credit      Int
-  enrollments CourseEnrollment[]
-}
-
-model CourseEnrollment {
-  id          Int      @id @default(autoincrement())
-  roll        String
-  coursecode  String
-  type        String
-  semester     String
-  session      String
-  course      Course   @relation(fields: [coursecode], references: [coursecode])
-  student     student @relation(fields: [roll], references: [registration_number])
-}
-
-model SelectedCourse {
-=======
 model selectedcourse {
->>>>>>> dc25c5a41d98f7f5061b31cac4995b4f2de031bb
   id                Int    @id @default(autoincrement())
   session           String
   semester          String
