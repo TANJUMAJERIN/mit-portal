@@ -12,8 +12,9 @@ router.post('/login', async (req, res) => {
   try {
     // Check if the email exists in the user table
     const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
+    if (!user || password!="iit123") {
       return res.status(401).json({ message: 'Invalid email or password' });
+      
     }
 
     // Since password is same for all users, we don't need to check it

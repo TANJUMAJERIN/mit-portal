@@ -126,50 +126,45 @@ const main = async () => {
 
 	console.log("Courses seeded successfully");
 
-	const students = [
-		{
-			registration_number: "1312",
-			name: "Jerin",
-			email: "a@b.c",
-			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
-		},
-		{
-			registration_number: "1305",
-			name: "Faria",
-			email: "d@e.f",
-			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
-		},
-	];
+// 	const students = [
+// 		{
+// 			registration_number: "1312",
+// 			name: "Jerin",
+// 			email: "a@b.c",
+// 			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+// 		},
+// 		
+// 	];
 
-	for (const student of students) {
-		await prisma.student.create({
-			data: student,
-		});
-	}
+// 	for (const student of students) {
+// 		await prisma.student.create({
+// 			data: student,
+// 		});
+// 	}
 
-	console.log("Students seeded successfully");
+// 	console.log("Students seeded successfully");
 
-	const user = [
-		{
-			email: "a@b.c",
-			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
-			role: "student",
-		},
-		{
-			email: "d@e.f",
-			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
-			role: "student",
-		},
-	];
+// 	const user = [
+// 		{
+// 			email: "a@b.c",
+// 			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+// 			role: "student",
+// 		},
+// 		{
+// 			email: "d@e.f",
+// 			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+// 			role: "student",
+// 		},
+// 	];
 
-	for (const u of user) {
-		await prisma.user.create({
-			data: u,
-		});
-	}
+// 	for (const u of user) {
+// 		await prisma.user.create({
+// 			data: u,
+// 		});
+// 	}
 
-	console.log("Users seeded successfully");
-};
+// 	console.log("Users seeded successfully");
+// };
 
 main()
 	.catch((e) => {

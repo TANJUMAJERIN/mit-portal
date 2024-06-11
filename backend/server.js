@@ -269,7 +269,9 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const viewResultRoutes = require('./routes/viewResultRoutes');
 const enroll_student_data = require('./routes/enroll_student_data');
 const courseRoutes = require('./routes/courseRoutes');
-
+const uploadStudentListRoutes = require('./routes/uploadStudentList');
+const paymentSlipRoutes = require('./routes/paymentSlip'); 
+const history = require('./routes/history')
 const app = express();
 const PORT = 5000;
 
@@ -283,9 +285,29 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/notices', noticesRouter);
 app.use('/api',enroll_student_data);
 app.use("/api", courseRoutes);
+app.use('/api', paymentSlipRoutes);
+app.use('/api', uploadStudentListRoutes);
 
+app.use('/api/history', history);
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 ///////////////////cute final end////////////////////
+
+
+//payment check
+//const express = require('express');
+// const cors = require('cors');
+// const paymentSlipRoutes = require('./routes/paymentSlip'); // Ensure correct path
+
+// const app = express();
+// const port = 5000;
+
+// app.use(cors());
+// app.use(express.json());
+// app.use('/api', paymentSlipRoutes);
+
+// app.listen(port, () => {
+//   console.log(`Server running at http://localhost:${port}`);
+// });
