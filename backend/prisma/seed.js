@@ -129,12 +129,28 @@ const main = async () => {
 	const students = [
 		{
 			registration_number: "1312",
-			name: "Jerin",
-			email: "a@b.c",
-      session: "2020-21",
+			name: "Tanjuma Tabassum",
+			email: "bsse1312@iit.du.ac.bd",
+			session: "2020-21",
+			role: "student",
 			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
 		},
-		
+		{
+			registration_number: "1301",
+			name: "Shifa Jahan",
+			email: "bsse1301@iit.du.ac.bd",
+			session: "2020-21",
+			role: "student",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+		},
+		{
+			registration_number: "1305",
+			name: "Faria Akter",
+			email: "bsse1305@iit.du.ac.bd",
+			session: "2020-21",
+			role: "student",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+		},
 	];
 
 	for (const student of students) {
@@ -145,16 +161,78 @@ const main = async () => {
 
 	console.log("Students seeded successfully");
 
-	const user = [
+	const staffs = [
 		{
-			email: "a@b.c",
+			email: "salim@iit.du.ac.bd",
+			name: "Md. Salim",
+			Password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+			role: "staff",
+		},
+	];
+
+	for (const staff of staffs) {
+		await prisma.staff.create({
+			data: staff,
+		});
+	}
+
+	console.log("Staffs seeded successfully");
+
+	const teachers = [
+		{
+			email: "naushin@iit.du.ac.bd",
+			name: "Dr. Naushin Nower",
+			designation: "Professor",
 			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
-			role: "student",
+			role: "Course Coordinator",
 		},
 		{
-			email: "d@e.f",
+			email: "toukir@iit.du.ac.bd",
+			name: "Toukir Ahmed",
+			designation: "Leacturer",
 			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+			role: "Course Teacher",
+		},
+	];
+
+	for (const teacher of teachers) {
+		await prisma.teacher.create({
+			data: teacher,
+		});
+	}
+
+	console.log("Teachers seeded successfully");
+
+	const user = [
+		{
+			email: "salim@iit.du.ac.bd",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+			role: "staff",
+		},
+		{
+			email: "bsse1312@iit.du.ac.bd",
 			role: "student",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+		},
+		{
+			email: "bsse1301@iit.du.ac.bd",
+			role: "student",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+		},
+		{
+			email: "bsse1305@iit.du.ac.bd",
+			role: "student",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+		},
+		{
+			email: "naushin@iit.du.ac.bd",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+			role: "teacher",
+		},
+		{
+			email: "toukir@iit.du.ac.bd",
+			password: "$2y$10$UM851DbJi9iMHKvRLySDBuCNdE3SITdaAkPB4y4TzaYbCt2JGbIoi",
+			role: "teacher",
 		},
 	];
 

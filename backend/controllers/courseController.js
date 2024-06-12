@@ -3,20 +3,43 @@ const prisma = new PrismaClient();
 
 exports.initialCourseSelection = async (req, res) => {
 	const { roll, session, semester } = req.body;
+	console.log(roll);
 
 	try {
 		let courses;
+		const availableCourses = [];
 
 		if (semester === "1st") {
 			courses = await prisma.course.findMany({
-				take: 4,
+				where: {
+					coursecode: {
+						startsWith: "MITM 30",
+					},
+				},
 			});
+			for (const course of courses) {
+				const passed = await prisma.marksheetdata.findMany({
+					where: {
+						course_code: course.coursecode,
+						student_roll: roll,
+						gpa: {
+							gte: 2.0,
+						},
+					},
+				});
+
+				if (passed.length === 0) {
+					availableCourses.push(course);
+				}
+			}
+			console.log(availableCourses);
+			res.json({ courses: availableCourses });
 		} else {
-			const passedCourses = await prisma.marksheetData.findMany({
+			const passedCourses = await prisma.marksheetdata.findMany({
 				where: {
 					student_roll: roll,
 					gpa: {
-						gt: 0,
+						gte: 2.0,
 					},
 				},
 				select: {
@@ -24,18 +47,21 @@ exports.initialCourseSelection = async (req, res) => {
 				},
 			});
 
-			const passedCourseCodes = passedCourses.map((c) => c.coursecode);
+			const passedCourseCodes = passedCourses.map((c) => c.course_code);
 
-			courses = await prisma.course.findMany({
-				where: {
-					coursecode: {
-						notIn: passedCourseCodes,
+			if (passedCourseCodes === undefined || passedCourseCodes.length === 0) {
+				courses = await prisma.course.findMany({});
+			} else {
+				courses = await prisma.course.findMany({
+					where: {
+						coursecode: {
+							notIn: passedCourseCodes,
+						},
 					},
-				},
-			});
+				});
+			}
+			res.json({ courses });
 		}
-
-		res.json({ courses });
 	} catch (error) {
 		console.error(error);
 		res
@@ -57,6 +83,8 @@ exports.submitCourseSelection = async (req, res) => {
 					// roll,
 					// coursecode,
 					type,
+					semester,
+					session,
 					student: {
 						connect: {
 							registration_number: roll,
