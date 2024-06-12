@@ -7,12 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Course {
-  course_code String  @id @db.VarChar(20)
-  course_name String? @db.VarChar(255)
-}
-
-model Notices {
+model notices {
   id          Int       @id @default(autoincrement())
   title       String    @db.VarChar(255)
   description String?   @db.Text
@@ -24,32 +19,91 @@ model Payment {
   payment_status      String? @db.VarChar(10)
 }
 
-model Result {
-  registration_number Int      @id
+model result {
+  registration_number Int      @unique
   marks               Decimal? @db.Decimal(5, 2)
   course_name         String?  @db.VarChar(255)
   CGPA                Decimal? @db.Decimal(3, 2)
+  id                  Int      @id @default(autoincrement())
 }
 
 model Staff {
   email    String  @id @db.VarChar(255)
   name     String? @db.VarChar(255)
   Password String? @db.VarChar(255)
+  role     String? @db.VarChar(50)
 }
 
-model Enrolled {
-  id                  Int     @id @default(autoincrement())
-  registration_number String  @db.VarChar(255)
-  email               String  @db.VarChar(255)
+model student {
+  registration_number String             @unique @db.VarChar(255)
+  email               String             @unique @db.VarChar(255)
+  name                String?            @db.VarChar(255)
+  session             String             @db.VarChar(255)
+  role                String?            @db.VarChar(50)
+  password            String?            @db.VarChar(255)
+  courseenrollment    courseenrollment[]
+}
+
+model enrolled {
+  registration_number String  @unique @db.VarChar(255)
+  email               String  @unique @db.VarChar(255)
   session             String  @db.VarChar(255)
   name                String? @db.VarChar(255)
 }
 
-model Teacher {
-  email       String  @id @db.VarChar(255)
+model teacher {
+  email       String  @id @unique @db.VarChar(255)
   name        String? @db.VarChar(255)
   designation String? @db.VarChar(100)
   password    String? @db.VarChar(255)
+  role        String? @db.VarChar(50)
+}
+
+model user {
+  email    String @id @db.VarChar(255)
+  role     String @db.VarChar(50)
+  password String @db.VarChar(255)
+}
+
+model course {
+  coursecode       String             @id @unique(map: "Course_coursecode_key")
+  coursename       String
+  credit           Int
+  type             String
+  courseenrollment courseenrollment[]
+}
+
+model courseenrollment {
+  id         Int     @id @default(autoincrement())
+  roll       String
+  coursecode String
+  type       String
+  semester   String
+  session    String
+  course     course  @relation(fields: [coursecode], references: [coursecode], map: "CourseEnrollment_coursecode_fkey")
+  student    student @relation(fields: [roll], references: [registration_number], map: "CourseEnrollment_roll_fkey")
+
+  @@index([roll], map: "CourseEnrollment_roll_fkey")
+  @@index([coursecode], map: "CourseEnrollment_coursecode_fkey")
+}
+
+model marksheetdata {
+  id           Int    @id @default(autoincrement())
+  student_roll String
+  course_code  String
+  course_name  String
+  semester     String
+  session      String
+  marks        Int
+  gpa          Float
+}
+
+model selectedcourse {
+  id                Int    @id @default(autoincrement())
+  session           String
+  semester          String
+  coursecode        String
+  currentlyEnrolled Int
 }
 
 model Student {
