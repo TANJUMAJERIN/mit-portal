@@ -2,26 +2,26 @@ import React, { useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useSession } from 'next-auth/react';
 
 export default function ViewResult() {
   const [semester, setSemester] = useState("");
   const [session, setSession] = useState("");
-  const [rollNumber, setRollNumber] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+
+  const { data: currentuser, status } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
     try {
-      console.log("Sending request to backend");
       const response = await axios.post(
         "http://localhost:5000/api/view-result",
         {
-          semester,
-          session,
-          rollNumber,
+            semester: semester,
+            session: session,
+            roll: currentuser.user.roll,
         }
       );
       console.log("Received response from backend:", response.data);
@@ -80,16 +80,6 @@ export default function ViewResult() {
             onChange={(e) => setSession(e.target.value)}
             className="border p-2 w-full"
             placeholder="20XX-XX"
-            required
-          />
-        </div>
-        <div>
-          <label>Roll Number:</label>
-          <input
-            type="text"
-            value={rollNumber}
-            onChange={(e) => setRollNumber(e.target.value)}
-            className="border p-2 w-full"
             required
           />
         </div>

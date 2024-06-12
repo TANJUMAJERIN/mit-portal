@@ -1,30 +1,32 @@
-
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import axios from 'axios';
-import Header from "./Land/Header";
-import Footer from "./Land/Footer";
+import { signIn, useSession } from 'next-auth/react'
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
+  const { data: session, status } = useSession();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if(status === "authenticated") 
+    router.push('/dashboard')
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     try {
-      const response = await axios.post('http://localhost:5000/api/login', { email, password });
-      const { token, userData } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', userData.role);
-      localStorage.setItem('designation', userData.designation);
-      router.push('/dashboard');
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: email,
+        password: password,
+        callbackUrl: `${window.location.origin}`
+      })
+
     } catch (error) {
-      console.error('Invalid email or password');
-      setError('Invalid email or password');
+      alert('error')
     }
-  };
+      
+  }
 
   const handleForgotPassword = () => {
     router.push('/recover-password');
@@ -34,7 +36,7 @@ const LoginPage = () => {
     <>
     <Header/>
     <div className="min-h-screen flex items-center justify-center bg-sky-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
         <h2 className="text-3xl font-bold mb-6 text-center">
           Login To Executive MIT
         </h2>

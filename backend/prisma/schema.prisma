@@ -59,7 +59,7 @@ model teacher {
 }
 
 model user {
-  email    String @id @db.VarChar(255)
+  email    String @id @unique @db.VarChar(255)
   role     String @db.VarChar(50)
   password String @db.VarChar(255)
 }

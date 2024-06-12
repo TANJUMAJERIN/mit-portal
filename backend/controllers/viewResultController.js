@@ -2,13 +2,13 @@
 // const prisma = new PrismaClient();
 
 // const viewResult = async (req, res) => {
-//   const { semester, session, rollNumber } = req.body;
+//   const { semester, session, roll } = req.body;
 
 //   try {
 //     // Fetch student details
 //     const student = await prisma.students.findUnique({
 //       where: {
-//         registration_number: rollNumber,
+//         registration_number: roll,
 //       },
 //     });
 
@@ -19,7 +19,7 @@
 //     // Fetch marksheet data
 //     const results = await prisma.marksheetData.findMany({
 //       where: {
-//         student_roll: rollNumber,
+//         student_roll: roll,
 //         semester: semester,
 //         session: session,
 //       },
@@ -47,13 +47,13 @@
 // const viewResult = async (req, res) => {
 //   console.log('viewResult function called');
 //   console.log('Request body:', req.body);
-//   const { semester, session, rollNumber } = req.body;
+//   const { semester, session, roll } = req.body;
 
 //   try {
 //     // Fetch student details
 //     const student = await prisma.students.findUnique({
 //       where: {
-//         registration_number: rollNumber,
+//         registration_number: roll,
 //       },
 //     });
 
@@ -64,7 +64,7 @@
 //     // Fetch marksheet data
 //     const results = await prisma.marksheetData.findMany({
 //       where: {
-//         student_roll: rollNumber,
+//         student_roll: roll,
 //         semester: semester,
 //         session: session,
 //       },
@@ -91,13 +91,14 @@
 const prisma = require('../prisma/prismaClient');
 
 const viewResult = async (req, res) => {
-  const { semester, session, rollNumber } = req.body;
+  const { semester, session, roll } = req.body;
+  console.log(roll)
 
   try {
     // Fetch student details
-    const student = await prisma.students.findUnique({
+    const student = await prisma.student.findUnique({
       where: {
-        registration_number: rollNumber,
+        registration_number: roll,
       },
     });
 
@@ -106,9 +107,9 @@ const viewResult = async (req, res) => {
     }
 
     // Fetch marksheet data
-    const results = await prisma.marksheetData.findMany({
+    const results = await prisma.marksheetdata.findMany({
       where: {
-        student_roll: rollNumber,
+        student_roll: roll,
         semester: semester,
         session: session,
       },
