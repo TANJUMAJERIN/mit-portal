@@ -186,7 +186,7 @@ export default function TeacherCourseOffer() {
                   ))}
                 </tbody>
               </table>
-              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded w-full mt-4">
+              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded w-full mt-4">
                 Offer Selected Courses
               </button>
             </div>
