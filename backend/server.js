@@ -11,7 +11,7 @@ const noticesRouter = require('./routes/notices');
 const uploadRoutes = require('./routes/uploadRoutes');
 const viewResultRoutes = require('./routes/viewResultRoutes');
 const noticeUploadRoutes = require('./routes/noticeUploadRoutes');
-const path = require('path');
+const path = require('node:path');
 
 const courseRoutes = require('./routes/courseRoutes');
 const uploadStudentListRoutes = require('./routes/uploadStudentList');

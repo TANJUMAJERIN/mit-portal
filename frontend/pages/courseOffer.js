@@ -1,14 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
+import { useSession } from 'next-auth/react';
 
 export default function CourseSelection() {
 	const [session, setSession] = useState("");
 	const [semester, setSemester] = useState("");
 	const [courses, setCourses] = useState([]);
 	const [selectedCourses, setSelectedCourses] = useState([]);
-	const [roll, setRoll] = useState("1305"); // Assuming student roll is available
+	
+	const { data: currentUser, status } = useSession();
 
 	const fetchCourses = async () => {
+		const roll = currentUser.user.roll;
+		
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/api/initial-course-selection",
