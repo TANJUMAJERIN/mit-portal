@@ -1,18 +1,40 @@
 import { useState } from "react";
 import axios from "axios";
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
 
 export default function CourseSelection() {
 	const [session, setSession] = useState("");
 	const [semester, setSemester] = useState("");
 	const [courses, setCourses] = useState([]);
 	const [selectedCourses, setSelectedCourses] = useState([]);
-	
+	const [majorSelected, setMajorSelected] = useState(false);
+
 	const { data: currentUser, status } = useSession();
+
+	const fetchMajorCourses = async () => {
+		const roll = currentUser.user.roll;
+
+		try {
+			const response = await axios.get(
+				"http://localhost:5000/api/fetch-major-courses",
+				{
+					params: {
+						roll,
+						session,
+						semester,
+					},
+				},
+			);
+			console.log(response.data); // Log the response data
+			setCourses(response.data.courses);
+		} catch (error) {
+			console.error("Error fetching major courses:", error);
+		}
+	};
 
 	const fetchCourses = async () => {
 		const roll = currentUser.user.roll;
-		
+
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/api/initial-course-selection",
@@ -40,7 +62,18 @@ export default function CourseSelection() {
 	};
 
 	const handleSubmit = async () => {
+		if (selectedCourses.length < 2) {
+			alert("Please select at least two course.");
+			return;
+		}
+
+		if (selectedCourses.length > 4) {
+			alert("Please select at most four courses.");
+			return;
+		}
+
 		try {
+			const roll = currentUser.user.roll;
 			const response = await axios.post(
 				"http://localhost:5000/api/submit-course-selection",
 				{
@@ -50,7 +83,17 @@ export default function CourseSelection() {
 					selectedCourses,
 				},
 			);
-			alert("Courses successfully enrolled.");
+
+			if (!majorSelected) {
+				alert("Major courses successfully enrolled.");
+				setCourses([]);
+				setSelectedCourses([]);
+				await fetchCourses();
+				setMajorSelected(true);
+			} else {
+				alert("Elective Courses successfully enrolled.");
+				setCourses([]);
+			}
 		} catch (error) {
 			console.error("Error submitting course selection:", error);
 		}
@@ -85,7 +128,8 @@ export default function CourseSelection() {
 			</div>
 
 			<button
-				onClick={fetchCourses}
+				type="button"
+				onClick={fetchMajorCourses}
 				className="bg-blue-500 text-white px-4 py-2 rounded"
 			>
 				Fetch Courses
@@ -122,6 +166,7 @@ export default function CourseSelection() {
 					</table>
 
 					<button
+						type="button"
 						onClick={handleSubmit}
 						className="bg-green-500 text-white px-4 py-2 rounded mt-4"
 					>
