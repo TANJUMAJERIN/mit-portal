@@ -18,6 +18,7 @@ const uploadStudentListRoutes = require('./routes/uploadStudentList');
 const paymentSlipRoutes = require('./routes/paymentSlip'); 
 const history = require('./routes/history')
 const enrollmentVerificationRoutes = require('./routes/enrollmentVerificationRoutes');
+const teacherCourseOfferRoutes = require('./routes/teacherCourseOfferRoutes');
 
 const app = express();
 const PORT = 5000;
@@ -39,6 +40,8 @@ app.use('/api', paymentSlipRoutes);
 app.use('/api', uploadStudentListRoutes);
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use('/api', teacherCourseOfferRoutes);
 
 app.use('/api', noticeUploadRoutes);
 

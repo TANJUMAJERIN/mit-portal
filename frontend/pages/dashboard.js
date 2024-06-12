@@ -265,9 +265,9 @@ const Dashboard = () => {
     router.push('/studentHistory');
   };
 
-  const navigateToCourseOffer = () => {
-    router.push('/courseOffer');
-  };
+  // const navigateToCourseOffer = () => {
+  //   router.push('/courseOffer');
+  // };
 
   const navigateToInitialCourseSelection = () => {
     router.push('/courseOffer');
@@ -275,6 +275,10 @@ const Dashboard = () => {
 
   const navigateToFinalCourseEnrollment = () => {
     router.push('/finalCourseEnrollment');
+  };
+  
+  const navigateToTeacherCourseOffer = () => {
+    router.push('/teacherCourseOffer');
   };
 
   const renderNavOptions = () => {
@@ -315,7 +319,7 @@ const Dashboard = () => {
           <>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={fetchNotices}>Notices</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToVerification}>Enrollment Verification</li>
-            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToCourseOffer}>Course Offer</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToTeacherCourseOffer}>Course Offer</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToHistory}>History</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
           </>
