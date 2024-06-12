@@ -22,7 +22,7 @@ const Dashboard = () => {
   const fetchData = async () => {
   console.log(session.user)
     try {
-      const response = await axios.get(`http://localhost:5000/api/dashboard`, {
+      const response = await axios.get("http://localhost:5000/api/dashboard", {
         params: {
           email: session.user.email,
           role: session.user.role
@@ -40,7 +40,7 @@ const Dashboard = () => {
     console.log('here')
     try {
       const token = session.user.token;
-      const response = await axios.get(`http://localhost:5000/api/notices`, {
+      const response = await axios.get("http://localhost:5000/api/notices", {
         headers: {
           Authorization: `Bearer ${token}`
         }

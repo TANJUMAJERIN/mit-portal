@@ -26,9 +26,6 @@ export default NextAuth({
             };
             // console.log(user)
             return user;
-          } else {
-            
-            return null;
           }
         } catch (error) {
           console.error('Error during login:', error);
@@ -54,7 +51,7 @@ export default NextAuth({
     },
     async session({session, token}) {
       
-      session.user = token.token.user;
+      session.user = token.user;
       return session;
     },
   },
