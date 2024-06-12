@@ -27,7 +27,7 @@ const LoginPage = () => {
   };
 
   const handleForgotPassword = () => {
-    console.log("Forgot Password clicked");
+    router.push('/recover-password');
   };
 
   return (
