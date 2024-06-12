@@ -1,165 +1,3 @@
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// export default function EnrollmentVerification() {
-//   const [enrolled, setEnrolled] = useState([]);
-//   const [selected, setSelected] = useState([]);
-
-//   useEffect(() => {
-//     const fetchEnrolled = async () => {
-//       const response = await axios.get('http://localhost:5000/api/enrolled');
-//       setEnrolled(response.data);
-//     };
-//     fetchEnrolled();
-//   }, []);
-
-//   const handleSelect = (student) => {
-//     setSelected((prevSelected) => [...prevSelected, student]);
-//   };
-
-//   const handleSubmit = async () => {
-//     await Promise.all(
-//       selected.map(async (student) => {
-//         await axios.post('http://localhost:5000/api/students', student);
-//       })
-//     );
-//     alert('Students enrolled successfully');
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <table className="table-auto w-full">
-//         <thead>
-//           <tr>
-//             <th>Registration Number</th>
-//             <th>Email</th>
-//             <th>Session</th>
-//             <th>Name</th>
-//             <th>Select</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {enrolled.map((student) => (
-//             <tr key={student.id}>
-//               <td>{student.registration_number}</td>
-//               <td>{student.email}</td>
-//               <td>{student.session}</td>
-//               <td>{student.name}</td>
-//               <td>
-//                 <button
-//                   className="bg-blue-500 text-white px-4 py-2 rounded"
-//                   onClick={() => handleSelect(student)}
-//                 >
-//                   Select
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//       <button
-//         className="bg-green-500 text-white px-4 py-2 rounded mt-4"
-//         onClick={handleSubmit}
-//       >
-//         Enroll Selected Students
-//       </button>
-//     </div>
-//   );
-// }
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// export default function EnrollmentVerification() {
-//   const [enrolled, setEnrolled] = useState([]);
-//   const [selected, setSelected] = useState([]);
-
-//   useEffect(() => {
-//     const fetchEnrolled = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:5000/api/enrolled');
-//         setEnrolled(response.data);
-//       } catch (error) {
-//         console.error('Error fetching enrolled students:', error);
-//       }
-//     };
-//     fetchEnrolled();
-//   }, []);
-
-//   const handleSelect = (student) => {
-//     setSelected((prevSelected) => {
-//       if (prevSelected.some(selectedStudent => selectedStudent.id === student.id)) {
-//         return prevSelected.filter(selectedStudent => selectedStudent.id !== student.id);
-//       } else {
-//         return [...prevSelected, student];
-//       }
-//     });
-//   };
-
-//   const handleSubmit = async () => {
-//     try {
-//       await Promise.all(
-//         selected.map(async (student) => {
-//           await axios.post('http://localhost:5000/api/students', {
-//             registration_number: student.registration_number,
-//             email: student.email,
-//             session: student.session,
-//             name: student.name,
-//           });
-//         })
-//       );
-//       alert('Students enrolled successfully');
-//       setSelected([]);
-//     } catch (error) {
-//       console.error('Error enrolling students:', error);
-//       alert('Failed to enroll students. Please try again.');
-//     }
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <table className="table-auto w-full">
-//         <thead>
-//           <tr>
-//             <th>Registration Number</th>
-//             <th>Email</th>
-//             <th>Session</th>
-//             <th>Name</th>
-//             <th>Select</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {enrolled.map((student) => (
-//             <tr key={student.id}>
-//               <td>{student.registration_number}</td>
-//               <td>{student.email}</td>
-//               <td>{student.session}</td>
-//               <td>{student.name}</td>
-//               <td>
-//                 <button
-//                   className={`px-4 py-2 rounded ${selected.some(selectedStudent => selectedStudent.id === student.id) ? 'bg-red-500' : 'bg-blue-500'} text-white`}
-//                   onClick={() => handleSelect(student)}
-//                 >
-//                   {selected.some(selectedStudent => selectedStudent.id === student.id) ? 'Deselect' : 'Select'}
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//       {selected.length > 0 && (
-//         <button
-//           className="bg-green-500 text-white px-4 py-2 rounded mt-4"
-//           onClick={handleSubmit}
-//         >
-//           Enroll Selected Students
-//         </button>
-//       )}
-//     </div>
-//   );
-// }
-//pages/enrollmentVerification.js
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -199,6 +37,23 @@ const EnrollmentVerification = () => {
       console.error('Error saving student:', error);
     }
   };
+
+  // const handleSaveStudent = async () => {
+  //   try {
+  //     const { id, registration_number, email, session, name } = selectedStudent;
+  //     if (id && registration_number && email && session && name) {
+  //       await axios.post('http://localhost:5000/api/students', selectedStudent);
+  //       console.log('Student saved successfully');
+  //       setSelectedStudent(null);
+  //       fetchEnrolledStudents(); // Refresh the enrolled students list
+  //     } else {
+  //       console.error('Selected student does not have all required fields.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error saving student:', error);
+  //   }
+  // };
+  
 
   return (
     <div className="container mx-auto py-8">

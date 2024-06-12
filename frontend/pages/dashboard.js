@@ -188,6 +188,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react'
 
 const Dashboard = () => {
   const [userData, setUserData] = useState({});
@@ -257,6 +258,9 @@ const Dashboard = () => {
     router.push('/enrollmentVerification');
   };
 
+  const navigateToNoticeGenerate = () => {
+    router.push('/noticeGenerate');
+  };
   const navigateToHistory = () => {
     router.push('/studentHistory');
   };
@@ -266,7 +270,7 @@ const Dashboard = () => {
   };
 
   const navigateToInitialCourseSelection = () => {
-    router.push('/initialCourseSelection');
+    router.push('/courseOffer');
   };
 
   const navigateToFinalCourseEnrollment = () => {
@@ -280,8 +284,10 @@ const Dashboard = () => {
           <>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={fetchNotices}>Notices</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToStudentEnroll}>Student Enrollment</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToNoticeGenerate}>Generate Notice</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToPayment}>Payment</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToHistory}>History</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
           </>
         );
       case 'Course Teacher':
@@ -290,6 +296,9 @@ const Dashboard = () => {
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={fetchNotices}>Notices</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToUploadResult}>Upload Result</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToHistory}>History</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
+            
+
           </>
         );
       case 'Director':
@@ -298,6 +307,7 @@ const Dashboard = () => {
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={fetchNotices}>Notices</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToVerification}>Enrollment Verification</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToHistory}>History</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
           </>
         );
       case 'Course Coordinator':
@@ -307,15 +317,19 @@ const Dashboard = () => {
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToVerification}>Enrollment Verification</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToCourseOffer}>Course Offer</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToHistory}>History</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
           </>
         );
       case 'student':
         return (
           <>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={fetchNotices}>Notices</li>
-            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToViewResult}>View Result</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToPayment}>Payment</li>
+           
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToInitialCourseSelection}>Initial Course Selection</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToFinalCourseEnrollment}>Final Course Enrollment</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToViewResult}>View Result</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
           </>
         );
       default:

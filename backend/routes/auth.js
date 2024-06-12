@@ -9,9 +9,10 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  
   try {
     const user = await prisma.user.findUnique({ where: { email } });
-    
+   
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid email or password' });
       
@@ -32,7 +33,7 @@ router.post('/login', async (req, res) => {
     userData.password = ''
     
     const token = jwt.sign({ email, role }, JWT_SECRET, { expiresIn: '1h' });
-
+   
     return res.json({ user: userData, token: token, role: role });
   } catch (error) {
     console.error('Error during login:', error);

@@ -45,7 +45,7 @@ const uploadResults = async (req, res) => {
       const gpa = calculateGPA(marks);
       console.log(`Inserting data for roll: ${roll}, marks: ${marks}, gpa: ${gpa}`);
 
-      const existingRecord = await prisma.marksheetData.findFirst({
+      const existingRecord = await prisma.marksheetdata.findFirst({
         where: {
           student_roll: roll.toString(),
           course_code: courseCode,
@@ -59,7 +59,7 @@ const uploadResults = async (req, res) => {
         continue;
       }
 
-      await prisma.marksheetData.create({
+      await prisma.marksheetdata.create({
         data: {
           student_roll: roll.toString(),
           course_code: courseCode,

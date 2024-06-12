@@ -10,6 +10,8 @@ const dashboardRoutes = require('./routes/dashboard');
 const noticesRouter = require('./routes/notices');
 const uploadRoutes = require('./routes/uploadRoutes');
 const viewResultRoutes = require('./routes/viewResultRoutes');
+const noticeUploadRoutes = require('./routes/noticeUploadRoutes');
+const path = require('path');
 
 const courseRoutes = require('./routes/courseRoutes');
 const uploadStudentListRoutes = require('./routes/uploadStudentList');
@@ -35,7 +37,10 @@ app.use('/api', enrollmentVerificationRoutes);
 app.use("/api", courseRoutes);
 app.use('/api', paymentSlipRoutes);
 app.use('/api', uploadStudentListRoutes);
+// Serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.use('/api', noticeUploadRoutes);
 
 app.use('/api/history', history);
 app.listen(PORT, () => {

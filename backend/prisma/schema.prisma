@@ -30,22 +30,23 @@ model result {
 model staff {
   email    String  @id @db.VarChar(255)
   name     String? @db.VarChar(255)
-  role     String 
   Password String? @db.VarChar(255)
+  role     String? @db.VarChar(50)
 }
 
 model student {
-  registration_number String             @id @unique @db.VarChar(255)
+  registration_number String             @unique @db.VarChar(255)
   email               String             @unique @db.VarChar(255)
-  password            String             @db.VarChar(255)
   name                String?            @db.VarChar(255)
+  session             String             @db.VarChar(255)
+  role                String?            @db.VarChar(50)
+  password            String?            @db.VarChar(255)
   courseenrollment    courseenrollment[]
 }
 
 model enrolled {
-  id                  Int     @id @default(autoincrement())
-  registration_number String  @db.VarChar(255)
-  email               String  @db.VarChar(255)
+  registration_number String  @unique @db.VarChar(255)
+  email               String  @unique @db.VarChar(255)
   session             String  @db.VarChar(255)
   name                String? @db.VarChar(255)
 }
@@ -53,13 +54,13 @@ model enrolled {
 model teacher {
   email       String  @id @unique @db.VarChar(255)
   name        String? @db.VarChar(255)
-  role        String  
   designation String? @db.VarChar(100)
   password    String? @db.VarChar(255)
+  role        String? @db.VarChar(50)
 }
 
 model user {
-  email    String @id @unique @db.VarChar(255)
+  email    String @id @db.VarChar(255)
   role     String @db.VarChar(50)
   password String @db.VarChar(255)
 }
@@ -77,11 +78,13 @@ model courseenrollment {
   roll       String
   coursecode String
   type       String
+  semester   String
+  session    String
   course     course  @relation(fields: [coursecode], references: [coursecode], map: "CourseEnrollment_coursecode_fkey")
   student    student @relation(fields: [roll], references: [registration_number], map: "CourseEnrollment_roll_fkey")
 
-  @@index([coursecode], map: "CourseEnrollment_coursecode_idx")
   @@index([roll], map: "CourseEnrollment_roll_fkey")
+  @@index([coursecode], map: "CourseEnrollment_coursecode_fkey")
 }
 
 model marksheetdata {

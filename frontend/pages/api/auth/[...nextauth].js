@@ -24,7 +24,7 @@ export default NextAuth({
               role: response.data.role,
               token: response.data.token,
             };
-            // console.log(user)
+             console.log(user)
             return user;
           } else {
             
@@ -54,7 +54,7 @@ export default NextAuth({
     },
     async session({session, token}) {
       
-      session.user = token.token.user;
+      session.user = token.user;
       return session;
     },
   },
