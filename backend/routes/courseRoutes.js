@@ -4,8 +4,8 @@ const courseController = require('../controllers/courseController');
 
 router.post('/initial-course-selection', courseController.initialCourseSelection);
 router.post('/submit-course-selection', courseController.submitCourseSelection);
-// router.post('/major-course-selection', courseController.majorCourseSelection);
-// router.post('/elective-course-selection', courseController.electiveCourseSelection);
+//router.post('/major-course-selection', courseController.majorCourseSelection);
+//router.post('/elective-course-selection', courseController.electiveCourseSelection);
 router.get('/fetch-major-courses', courseController.majorCourseFetch);
 
 module.exports = router;

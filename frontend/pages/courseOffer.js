@@ -34,7 +34,7 @@ export default function CourseSelection() {
 
 	const fetchCourses = async () => {
 		const roll = currentUser.user.roll;
-
+//const handleSubmit = async () => {
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/api/initial-course-selection",

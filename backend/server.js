@@ -19,6 +19,7 @@ const paymentSlipRoutes = require('./routes/paymentSlip');
 const history = require('./routes/history')
 const enrollmentVerificationRoutes = require('./routes/enrollmentVerificationRoutes');
 const teacherCourseOfferRoutes = require('./routes/teacherCourseOfferRoutes');
+const finalCourseOfferRoutes = require('./routes/finalCourseOfferRoutes');
 
 const app = express();
 const PORT = 5000;
@@ -37,6 +38,7 @@ app.use('/api/notices', noticesRouter);
 app.use('/api', enrollmentVerificationRoutes);
 app.use("/api", courseRoutes);
 app.use('/api', paymentSlipRoutes);
+app.use('/finalCourseOffer', finalCourseOfferRoutes);
 app.use('/api', uploadStudentListRoutes);
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

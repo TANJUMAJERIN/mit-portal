@@ -93,9 +93,14 @@ const Dashboard = () => {
     router.push('/finalCourseEnrollment');
   };
   
+  
   const navigateToTeacherCourseOffer = () => {
     router.push('/teacherCourseOffer');
   };
+  const navigateToTeacherFinalCourseOffer = () => {
+    router.push('/teacherFinalCourseOffer');
+  };
+
 
   const renderNavOptions = () => {
     switch (userData.role) {
@@ -135,7 +140,8 @@ const Dashboard = () => {
           <>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={fetchNotices}>Notices</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToVerification}>Enrollment Verification</li>
-            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToTeacherCourseOffer}>Course Offer</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToTeacherCourseOffer}>Initial Course Offer</li>
+            <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToTeacherFinalCourseOffer}>Final Course Offer</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={navigateToHistory}>History</li>
             <li className="bg-blue-200 rounded p-2 cursor-pointer hover:bg-blue-300" onClick={() => signOut( {callbackUrl: '/'} )}>Log out</li>
           </>
