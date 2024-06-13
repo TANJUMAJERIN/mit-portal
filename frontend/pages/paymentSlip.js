@@ -71,7 +71,7 @@ export default function PaymentSlip() {
           <label>Session:</label>
           <input
             type="text"
-            placeholder='20XX-21'
+            placeholder='20XX-XX'
             value={session}
             onChange={(e) => setSession(e.target.value)}
             className="border p-2 w-full"
