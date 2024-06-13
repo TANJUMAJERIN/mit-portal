@@ -297,6 +297,7 @@ exports.initialCourseSelection = async (req, res) => {
             });
 
             const passedCourseCodes = passedCourses.map((c) => c.course_code);
+            
 
             const electives = await prisma.selectedcourse.findMany({
                 where: {
@@ -312,6 +313,7 @@ exports.initialCourseSelection = async (req, res) => {
             });
 
             const electiveCourseCodes = electives.map((e) => e.coursecode);
+            console.log(electiveCourseCodes)
 
             const electiveCourses = await prisma.course.findMany({
                 where: {
@@ -331,6 +333,63 @@ exports.initialCourseSelection = async (req, res) => {
             });
 
             courses = [...electiveCourses, ...majors];
+            console.log(courses);
+            return res.json({ courses });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "An error occurred while fetching courses." });
+    }
+};
+
+exports.finalCourseSelection = async (req, res) => {
+    const { roll, session, semester } = req.body;
+    console.log(roll);
+
+    try {
+        let courses = [];
+
+        if (semester === "2nd" || semester === "3rd") {
+            const passedCourses = await prisma.marksheetdata.findMany({
+                where: {
+                    student_roll: roll,
+                    gpa: {
+                        gte: 2.0,
+                    },
+                },
+                select: {
+                    course_code: true,
+                },
+            });
+
+            const passedCourseCodes = passedCourses.map((c) => c.course_code);
+            
+
+            const electives = await prisma.selectedcourse.findMany({
+                where: {
+                    semester: semester,
+                    session: session,
+                    coursecode: {
+                        notIn: passedCourseCodes,
+                    },
+                },
+                select: {
+                    coursecode: true,
+                },
+            });
+
+            const electiveCourseCodes = electives.map((e) => e.coursecode);
+            console.log(electiveCourseCodes)
+
+            const electiveCourses = await prisma.course.findMany({
+                where: {
+                    coursecode: {
+                        in: electiveCourseCodes,
+                    },
+                },
+            });
+
+            courses = [...electiveCourses];
             console.log(courses);
             return res.json({ courses });
         }

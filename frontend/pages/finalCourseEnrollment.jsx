@@ -2,42 +2,21 @@ import { useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-export default function CourseSelection() {
+export default function FinalCourseSelection() {
 	const [session, setSession] = useState("");
 	const [semester, setSemester] = useState("");
 	const [courses, setCourses] = useState([]);
 	const [selectedCourses, setSelectedCourses] = useState([]);
-	const [majorSelected, setMajorSelected] = useState(false);
+	const [success, setSuccess] = useState(false);
 
 	const { data: currentUser, status } = useSession();
-
-	const fetchMajorCourses = async () => {
-		const roll = currentUser.user.roll;
-
-		try {
-			const response = await axios.get(
-				"http://localhost:5000/api/fetch-major-courses",
-				{
-					params: {
-						roll,
-						session,
-						semester,
-					},
-				},
-			);
-			console.log(response.data); // Log the response data
-			setCourses(response.data.courses);
-		} catch (error) {
-			console.error("Error fetching major courses:", error);
-		}
-	};
 
 	const fetchCourses = async () => {
 		const roll = currentUser.user.roll;
 
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/initial-course-selection",
+				"http://localhost:5000/api/final-course-selection",
 				{
 					roll,
 					session,
@@ -71,37 +50,14 @@ export default function CourseSelection() {
 			alert("Please select at most four courses.");
 			return;
 		}
-
-		try {
-			const roll = currentUser.user.roll;
-			const response = await axios.post(
-				"http://localhost:5000/api/submit-course-selection",
-				{
-					roll,
-					session,
-					semester,
-					selectedCourses,
-				},
-			);
-
-			if (!majorSelected) {
-				alert("Major courses successfully enrolled.");
-				setCourses([]);
-				setSelectedCourses([]);
-				await fetchCourses();
-				setMajorSelected(true);
-			} else {
-				alert("Elective Courses successfully enrolled.");
-				setCourses([]);
-			}
-		} catch (error) {
-			console.error("Error submitting course selection:", error);
-		}
+		alert("Enrolled Successfully");
+		setSelectedCourses([]);
+		setSuccess(true);
 	};
 
 	return (
 		<div className="container mx-auto p-4">
-			<h1 className="text-2xl font-bold mb-4">Initial Course Selection</h1>
+			<h1 className="text-2xl font-bold mb-4">Final Course Selection</h1>
 
 			<div className="mb-4">
 				<label className="block mb-2">Semester</label>
@@ -129,13 +85,13 @@ export default function CourseSelection() {
 
 			<button
 				type="button"
-				onClick={fetchMajorCourses}
+				onClick={fetchCourses}
 				className="bg-blue-500 text-white px-4 py-2 rounded"
 			>
 				Fetch Courses
 			</button>
 
-			{courses.length > 0 && (
+			{!success && courses && courses.length > 0 && (
 				<div className="mt-4">
 					<h2 className="text-xl font-bold mb-2">Available Courses</h2>
 					<table className="table-auto w-full border">
@@ -173,6 +129,28 @@ export default function CourseSelection() {
 						Submit Selection
 					</button>
 				</div>
+			)}
+			{success && courses && courses.length > 0 && (
+				<table className="min-w-full bg-white mt-16">
+					<thead>
+						<tr>
+							<th className="border px-4 py-2 text-left">
+								Enrolled Course Code
+							</th>
+							<th className="border px-4 py-2 text-left">
+								Enrolled Course Name
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{courses.map((course) => (
+							<tr key={course.coursecode}>
+								<td className="border px-4 py-2">{course.coursecode}</td>
+								<td className="border px-4 py-2">{course.coursename}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
 			)}
 		</div>
 	);
