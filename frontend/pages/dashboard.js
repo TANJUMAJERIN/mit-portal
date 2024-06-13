@@ -251,35 +251,36 @@ return (
               <p className="text-gray-600">{userData.registration_number}</p>
             </div>
           )}
-          {userData.role === 'teacher' && (
-            <>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Designation</h3>
-                <p className="text-gray-600">{userData.designation}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Role</h3>
-                <p className="text-gray-600">{userData.role}</p>
-              </div>
-            </>
-          )}
-        </div>
-        <button className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-sm">Change Password</button>
-      </div>
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Notices</h2>
-        <div className="bg-white rounded-lg shadow-md p-6">
-          {notices.map(notice => (
-            <div key={notice.id} className="mb-4">
-              <h3 className="text-lg font-semibold mb-2">{notice.title}</h3>
-              <p className="text-gray-600">{notice.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+          {(userData.role === 'Course Teacher' || userData.role === 'Course Coordinator' || userData.role === 'Director') && (
+  <>
+   
+    <div>
+      <h3 className="text-lg font-semibold mb-2">Designation</h3>
+      <p className="text-gray-600">{userData.designation}</p>
     </div>
+    <div>
+      <h3 className="text-lg font-semibold mb-2">Role</h3>
+      <p className="text-gray-600">{userData.role}</p>
+    </div>
+  </>
+)}
+</div>
+<button className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-sm">Change Password</button>
+</div>
+<div className="mt-8">
+  <h2 className="text-2xl font-semibold mb-4">Notices</h2>
+  <div className="bg-white rounded-lg shadow-md p-6">
+    {notices.map(notice => (
+      <div key={notice.id} className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">{notice.title}</h3>
+        <p className="text-gray-600">{notice.description}</p>
+      </div>
+    ))}
   </div>
+</div>
+</div>
+</div>
 );
 }
 
- export default Dashboard;
+export default Dashboard;
