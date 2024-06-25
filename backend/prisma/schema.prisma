@@ -30,21 +30,23 @@ model result {
 model staff {
   email    String  @id @db.VarChar(255)
   name     String? @db.VarChar(255)
+  role     String?  @db.VarChar(50)
   Password String? @db.VarChar(255)
 }
 
 model student {
   registration_number String  @unique @db.VarChar(255)
   email               String  @unique @db.VarChar(255)
-  password            String  @db.VarChar(255)
+  session             String  @db.VarChar(255)
   name                String? @db.VarChar(255)
+  password            String? @db.VarChar(255)
+  role                String?  @db.VarChar(50)
   enrollments         CourseEnrollment[]
 }
 
 model enrolled {
-  id                  Int     @id @default(autoincrement())
-  registration_number String  @db.VarChar(255)
-  email               String  @db.VarChar(255)
+  registration_number String  @unique @db.VarChar(255)
+  email               String  @unique @db.VarChar(255)
   session             String  @db.VarChar(255)
   name                String? @db.VarChar(255)
 }
@@ -52,6 +54,7 @@ model enrolled {
 model teacher {
   email       String  @id @db.VarChar(255) @unique
   name        String? @db.VarChar(255)
+  role        String?  @db.VarChar(50)
   designation String? @db.VarChar(100)
   password    String? @db.VarChar(255)
 }
@@ -80,6 +83,8 @@ model CourseEnrollment {
   roll        String
   coursecode  String
   type        String
+  semester     String
+  session      String
   course      Course   @relation(fields: [coursecode], references: [coursecode])
   student     student @relation(fields: [roll], references: [registration_number])
 }
@@ -96,4 +101,4 @@ model user {
   email    String  @id @db.VarChar(255)
   role     String  @db.VarChar(50)
   password String  @db.VarChar(255)
-}
+} When a new student is enrolled, he is provided with an One-time password, that he can use to sign in for the first time and set up a new password.
